@@ -1,5 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django.urls import reverse
+
 
 # Modelo que administrara las categorias del producto
 class Category(models.Model):
@@ -11,10 +13,8 @@ class Category(models.Model):
         verbose_name = 'Categoria'
         verbose_name_plural = 'Categorias'
 
-    """
     def get_absolute_url(self):
-        return reversed('store:category_list', args=[self.slug])
-    """
+        return reverse('store:category_list', args=[self.slug])
     
     def __str__(self):
         return self.name
@@ -38,6 +38,9 @@ class Product(models.Model):
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
         ordering = ('-created',)
+
+    def get_absolute_url(self):
+        return reverse('store:product_detail', args=[self.slug])
 
     def __str__(self):
         return self.title
