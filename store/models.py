@@ -3,6 +3,10 @@ from django.db import models
 from django.urls import reverse
 
 
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return super(ProductManager, self).get_queryset().filter(is_active=True)
+
 # Modelo que administrara las categorias del producto
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True, verbose_name='Nombre')
@@ -33,6 +37,8 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+    products = ProductManager()
 
     class Meta:
         verbose_name = 'Producto'
